@@ -70,9 +70,9 @@ def start():
 
 # ボタン
 button1_text = StringVar()
+button1 = ttk.Button( win , textvariable= button1_text , command = start )
 button1_text.set( "実行" )
-button1 = ttk.Button( win , textvariable= button1_text , command = start() )
-button1.grid( row=4, column=1 , ipadx=15, ipady=7 , pady=20 )
+button1.grid( row=4, column=1 , ipadx=10, ipady=7 , pady=20 )
 
 
 
