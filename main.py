@@ -1,4 +1,5 @@
 from tkinter.constants import CENTER, CURRENT
+
 import pyautogui , keyboard
 import tkinter as tk
 from tkinter import ttk
@@ -48,17 +49,10 @@ box3 = tk.Entry( width=13 )
 box3.insert( 0 , 5 )
 box3.grid( row=3, column=1 , padx=10, pady=5 )
 
-# ボタン
-button1_text = tk.StringVar()
-button1_text.set( "実行" )
-button1 = tk.Button( textvariable= button1_text , command=() )
-button1.grid( row=4, column=1 , ipadx=15, ipady=7 , pady=20 )
-
-
 # イベント
 def start():
 
-    button1_text.set( "停止" )
+    button1.insert( "停止" )
 
     # 変数取得
     key = box1.get()
@@ -67,14 +61,16 @@ def start():
 
 
 
-    pyautogui.keyDown( key )	    # キーを押したままにする
-    pyautogui.keyUp( key )	        # キーを離す
+    # pyautogui.keyDown( key )	    # キーを押したままにする
+    # pyautogui.keyUp( key )	        # キーを離す
 
-    pyautogui.mouseDown( mouse )	# マウスボタンを押したままにする
-    pyautogui.mouseUp( mouse )     # マウスボタンを離す
+    # pyautogui.mouseDown( mouse )	# マウスボタンを押したままにする
+    # pyautogui.mouseUp( mouse )     # マウスボタンを離す
 
 
-
+# ボタン
+button1 = tk.Button( win , text= "実行" , command = start() )
+button1.grid( row=4, column=1 , ipadx=15, ipady=7 , pady=20 )
 
 
 
