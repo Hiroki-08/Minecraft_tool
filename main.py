@@ -3,6 +3,7 @@ from tkinter.constants import CENTER, CURRENT
 import pyautogui , keyboard
 import tkinter as tk
 from tkinter import StringVar, ttk
+import time
 import threading
 
 # 画面作成
@@ -55,6 +56,7 @@ def start():
     # pyautogui.keyDown( key )	    # キーを押したままにする
     # pyautogui.mouseDown( button = mouse )	# マウスボタンを押したままにする
     after_id = win.after( 60000 * limit_time , stop )     # ms
+    time.sleep( 1 )
 
 def stop():
     global after_id , win
@@ -82,10 +84,14 @@ def button():
 def control():
     while True:
         if keyboard.read_key() == "f8":
+            time.sleep( 0.3 )
             func()
+
 
 thread1 = threading.Thread( target = button )
 thread2 = threading.Thread( target = control )
+
+thread2.setDaemon(True)
 
 thread1.start()
 thread2.start()
