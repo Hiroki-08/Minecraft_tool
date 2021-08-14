@@ -3,15 +3,7 @@ from tkinter.constants import CENTER, CURRENT
 import pyautogui , keyboard
 import tkinter as tk
 from tkinter import StringVar, ttk
-# pyautogui.mouseDown()	# マウスボタンを押したままにする
-# pyautogui.mouseUp()     # マウスボタンを離す
-
-# pyautogui.keyDown()	    # キーボードの()を押したままにする
-# pyautogui.keyUp('shift')
-
-# while True:
-#     if keyboard.read_key() == "f8":
-#         print("\nYou pressed F8")
+import threading
 
 # 画面作成
 win = tk.Tk()
@@ -31,7 +23,7 @@ label2.grid( row=2, column=0 , padx=10, pady=5 )
 label3 = ttk.Label( text= "実行時間 (分)")
 label3.grid( row=3, column=0 , padx=10, pady=5 )
 
-label4 = tk.Label( text= "クリック or F8 ： 実行/停止")
+label4 = tk.Label( text= "F8 or クリック ： 実行/停止")
 label4.grid( row=4, column=0 , padx=10, pady=5 )
 
 # テキストボックス
@@ -49,32 +41,53 @@ box3 = ttk.Entry( width=13 )
 box3.insert( 0 , 5 )
 box3.grid( row=3, column=1 , padx=10, pady=5 )
 
+
+# 変数取得
+key = box1.get()
+mouse = box2.get().lower()
+limit_time = int( box3.get() )
+
+after_id = None
 # イベント
 def start():
-
-    button1_text.set( "停止" )
-
-    # 変数取得
-    key = box1.get()
-    mouse = box2.get()
-    time = box3.get()
-
-
-
+    global after_id , win
+    button1_text.set( "停止" )      # ボタン更新
     # pyautogui.keyDown( key )	    # キーを押したままにする
+    # pyautogui.mouseDown( button = mouse )	# マウスボタンを押したままにする
+    after_id = win.after( 60000 * limit_time , stop )     # ms
+
+def stop():
+    global after_id , win
+    button1_text.set( "実行" )      # ボタン更新
     # pyautogui.keyUp( key )	        # キーを離す
+    # pyautogui.mouseUp( button = mouse )      # マウスボタンを離す
+    win.after_cancel( after_id )
+    after_id = None
 
-    # pyautogui.mouseDown( mouse )	# マウスボタンを押したままにする
-    # pyautogui.mouseUp( mouse )     # マウスボタンを離す
+button1_text = tk.StringVar()
+button1_text.set( "実行" )
 
+def func():
+    if ( str( button1_text.get() ) == "実行" ):
+        start()
+    else:
+        stop()
 
 # ボタン
-button1_text = StringVar()
-button1 = ttk.Button( win , textvariable= button1_text , command = start )
-button1_text.set( "実行" )
-button1.grid( row=4, column=1 , ipadx=10, ipady=7 , pady=20 )
+def button():
+    button1 = ttk.Button( win , textvariable= button1_text , command = func )
+    button1.grid( row=4, column=1 , ipadx=10, ipady=7 , pady=20 )
 
+# F8
+def control():
+    while True:
+        if keyboard.read_key() == "f8":
+            func()
 
+thread1 = threading.Thread( target = button )
+thread2 = threading.Thread( target = control )
 
+thread1.start()
+thread2.start()
 
 win.mainloop()
