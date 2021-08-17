@@ -1,5 +1,7 @@
 from tkinter.constants import CENTER, CURRENT
 
+import pydirectinput
+
 import pyautogui , keyboard
 import tkinter as tk
 from tkinter import StringVar, ttk
@@ -72,14 +74,11 @@ def start():
     # pyautogui.keyDown( 'ctrl' )
     pyautogui.keyDown( key )	    # キーを押したままにする
 
-
-    # actions.key_down(Keys.LEFT_CONTROL)
-    # actions.key_down( key )
-    # actions.perform()
+    pydirectinput.keyDown( key )
 
     # pyautogui.mouseDown( button = mouse )	# マウスボタンを押したままにする
     after_id = win.after( 60000 * limit_time , stop )     # ms
-    time.sleep( 1 )
+    # time.sleep( 1 )
 
 def stop():
     global after_id , win
@@ -95,7 +94,7 @@ def stop():
     pyautogui.mouseUp( button = mouse )      # マウスボタンを離す
     win.after_cancel( after_id )
     after_id = None
-    time.sleep( 1 )
+    # time.sleep( 1 )
 
 button1_text = tk.StringVar()
 button1_text.set( "実行" )
@@ -115,7 +114,7 @@ def button():
 def control():
     while True:
         if keyboard.read_key() == "f8":
-            time.sleep( 0.3 )
+            # time.sleep( 0.3 )
             func()
 
 
