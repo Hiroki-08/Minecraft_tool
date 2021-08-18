@@ -61,7 +61,6 @@ def value():
     limit_time = int( box3.get() )
 
 after_id = None
-#actions = ActionChains()
 # イベント
 def start():
     value()
@@ -71,14 +70,12 @@ def start():
     label4_1[ 'fg' ] = '#ffffff'
     label4_1[ 'bg' ] = '#dc143c'
 
-    # pyautogui.keyDown( 'ctrl' )
-    pyautogui.keyDown( key )	    # キーを押したままにする
+    pydirectinput.keyDown( 'ctrl' )
+    pydirectinput.keyDown( key )    # キーを押したままにする
 
-    pydirectinput.keyDown( key )
-
-    # pyautogui.mouseDown( button = mouse )	# マウスボタンを押したままにする
+    pyautogui.mouseDown( button = mouse )	# マウスボタンを押したままにする
     after_id = win.after( 60000 * limit_time , stop )     # ms
-    # time.sleep( 1 )
+    time.sleep( 0.2 )
 
 def stop():
     global after_id , win
@@ -86,15 +83,14 @@ def stop():
     label4_1[ 'text' ] = "停止中"
     label4_1[ 'fg' ] = '#000000'
     label4_1[ 'bg' ] = '#f2f2f2'
-    pyautogui.keyUp( key )	        # キーを離す
-    pyautogui.keyUp( 'ctrl' )
 
-    # actions.key_up( key )
+    pydirectinput.keyUp( 'ctrl' )
+    pydirectinput.keyUp( key )	        # キーを離す
 
     pyautogui.mouseUp( button = mouse )      # マウスボタンを離す
     win.after_cancel( after_id )
     after_id = None
-    # time.sleep( 1 )
+    time.sleep( 0.2 )
 
 button1_text = tk.StringVar()
 button1_text.set( "実行" )
